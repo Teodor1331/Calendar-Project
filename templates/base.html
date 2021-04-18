@@ -1,0 +1,39 @@
+<!-- Bootstrap 3.3.6 can be found here: https://blog.getbootstrap.com/2015/11/24/bootstrap-3-3-6-released/ -->
+
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-3.3.6/dist/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/styles.css') }}"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-lg-offset-0">
+                    <div class="menu">
+                        <a href="{{ url_for('index') }}" class="m-item"> Home </a>
+                        <a href="{{ url_for('all_groups')}}" class="m-item"> Groups </a>
+                        {% if current_user.active %} 
+                        <a href="{{ url_for_security('logout') }}" class="m-item"> Logout </a>
+                        <a href="{{ url_for('profile') }}" class="m-item"> Profile </a>
+                        <a href="{{ url_for('invitations') }}" class="m-item"> Invitations </a>
+                        <a href="{{ url_for('calendar_view') }}" class="m-item"> Calendar </a>
+                        {% else %}
+                        <a href="{{ url_for_security('register') }}" class="m-item"> Register </a> 
+                        <a href="{{ url_for_security('login') }}" class="m-item"> Login </a>
+                        {% endif %}                   
+                    </div>
+
+                    {% block body %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+        <script src="{{ url_for('static', filename='bootstrap-3.3.6/js/tests/vendor/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap-3.3.6/dist/js/bootstrap.min.js') }}"></script>
+    </body>
+</html>

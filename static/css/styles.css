@@ -1,0 +1,67 @@
+body {
+    background-color: yellowgreen;
+    font-family: serif, sans-serif, verdana, georgia;
+}
+
+#loginBlock {
+    margin-top: 30px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+@media (min-width: 1200px) {
+    div.container {
+        width: 1018px;
+        border-radius: 20px;
+        background-color: white !important;
+    }
+    div.container_login {
+        width: auto;
+    }
+}
+
+@media (max-width:800px)  {
+    div._panel div.info-bit {
+        border-right: none;
+        border-bottom: 1px solid rgba(44, 62, 80, .5);
+    }
+    div.info-bit-last {
+        border-bottom: none;
+    }
+}
+
+div.container {
+    background-color: yellow;
+    margin-top: 30px;
+    padding-top: 20px;
+    margin-bottom: 30px;
+}
+
+div.menu {
+    background-color: red;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.modal-header {
+    color: white;
+    background-color: orange;
+    border-color: yellow;
+    box-shadow: 2px 2px 2px lightcoral;
+}
+
+.m-item:first-of-type {
+    padding-left: 0;
+}
+
+.m-item {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+a, a:hover, a:visited, a:active {
+    text-decoration: none;
+}

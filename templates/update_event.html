@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Update event{% endblock %}
+{% block body %}
+<div class="row pad">
+    <div class="col-lg-12 pad">
+        <div class="panel panel-primary">
+            <div class="panel-body pad" id="_post">
+            	<h4> Current event name: {{ event.name }}</h4>
+            	<form method = "POST"  url = "update_group/{{event.id}}" enctype="multipart/form-data">	
+                  	<h4>Enter new name: </h4><textarea name="new_title" style="width:150px;height:30px;" placeholder = "New group name"></textarea></br>
+                  	</br>
+                  	<h4> Current date happening: {{ group.date_happened }}</h4>
+                  	<textarea name="new_content" style="width:950px;height:150px;" placeholder = "New group description"></textarea></br>
+                  	</br>
+                  	<button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-cogwheel"></i> Save changes </button>
+            	</form>	
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

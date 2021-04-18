@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+	{% for apply in applications %}	
+		<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
+    	<div class="panel-body">
+    	    <div class="row post">
+    	        <div class="col-lg-9">
+                    <div class="col-lg-4"> <h3 class="panel-title"><a href="{{ url_for('apply', apply_id=apply.id)}}" style="font-size: 18px" class="blue"> {{apply.username}} wants to apply for 	{{apply.group_name}} </a> </h3> </div>
+    	        </div>
+    	    </div>
+    	</div>
+	</div>
+	{% endfor %}
+{% endblock %}

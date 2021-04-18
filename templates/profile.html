@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Profile Data{% endblock %}
+
+{% block body %}
+
+<h1> Your profile data </h1>
+
+<h4> Your Email Address is: {{ current_user.email }}</h4>
+<h4> Your Username is: {{ current_user.username }}</h4>
+<h4> Your Name is: {{ current_user.name }} </h4>
+<h4> Your Age is: {{ current_user.age }} </h4>
+<h4> Your Gender is: {{ current_user.gender }} </h4>
+<h4> Your Status is: {{ current_user.status }} </h4>
+
+{% endblock %}

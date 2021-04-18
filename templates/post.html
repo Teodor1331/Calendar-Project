@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Post{% endblock %}
+
+{% block body %}
+<div class="row pad">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <strong>Post:</strong> {{ post.content }}
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="col-lg-12">
+                        <br/>  <i class="glyphicon glyphicon-calendar"></i> 
+                        {{ post.date_created.strftime('%d.%m.%Y, %H:%M:%S') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>All comments for this post:</h2>
+	{% for comment in comments %}
+	<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
+    	<div class="panel-body">
+    	    <div class="row post">
+    	        <div class="col-lg-9">
+    	            <div class="post-content"> <a href="{{ url_for('post', post_id=post.id) }}" style="font-size: 18px" class="blue">{{ comment.content }} </div>
+    	        </div>
+    	        <a href="{{url_for('update_comment', comment_id=comment.id)}}" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Update</a>
+    	        <a href="/delete_comment/{{ comment.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+    	        <br/>
+    	        <br/>
+    	        <br/>
+    	        <div class="col-lg-3">
+    	            <div class="post-details">
+    	                <i class="glyphicon glyphicon-calendar"></i> {{ comment.date_created.strftime('%d.%m.%Y, %H:%M:%S') }} &nbsp; <br />
+    	            </div>
+    	        </div>
+    	    </div>
+    	</div>
+	</div>
+{% endfor %}
+
+{% if current_user.active %}
+<div class="row pad">
+    <div class="col-lg-12 pad">
+        <div class="panel panel-primary">
+            <div class="panel-body pad" id="_post">
+                     <form method="POST" url = "post/{{post.id}}" enctype="multipart/form-data">
+					 <textarea name="new_content" style="width:950px;height:150px;" placeholder = "Comment"></textarea></br>	
+                     <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add your new comment </button>
+                	 </form>
+            </div>
+        </div>
+    </div>
+</div>   
+{% endif %}
+{% endblock %}

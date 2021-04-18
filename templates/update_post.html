@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Update post{% endblock %}
+{% block body %}
+<div class="row pad">
+    <div class="col-lg-12 pad">
+        <div class="panel panel-primary">
+            <div class="panel-body pad" id="_post">
+            	<form method = "POST"  url = "update_post/{{post.id}}" enctype="multipart/form-data">	
+                  	<h4> Current post content: {{ post.content }}</h4>
+                  	<textarea name="new_content" style="width:950px;height:150px;" placeholder = "New post content"></textarea></br>
+                  	</br>
+                  	<button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-cogwheel"></i> Save changes </button>
+            	</form>	
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

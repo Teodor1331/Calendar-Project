@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Topic{% endblock %}
+
+{% block body %}
+<div class="pageTitle"> {{ group.name }} </div>
+
+<div class="row pad">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <strong>Description of the group:</strong> {{ group.description }}
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="col-lg-12">
+                        <br/>  <i class="glyphicon glyphicon-calendar"></i> 
+                        {{ group.date_created.strftime('%d.%m.%Y, %H:%M:%S') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if current_user in users or current_user.id == group.admin_id%}
+	<h2>All posts in this group:</h2>
+	{% for post in posts %}
+	<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
+    	<div class="panel-body">
+    	    <div class="row post">
+    	        <div class="col-lg-9">
+    	            <div class="post-content"> <a href="{{ url_for('post', post_id=post.id) }}" style="font-size: 18px" class="blue">{{ post.content }} </div>
+    	        </div>
+    	        {% if current_user.active and current_user.id == group.admin_id%}
+    	        <a href="{{url_for('update_post', post_id=post.id)}}" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Update</a>
+    	        <a href="/delete_post/{{ post.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+    	        {% endif %}
+    	        <br/>
+    	        <br/>
+    	        <br/>
+    	        <div class="col-lg-3">
+    	            <div class="post-details">
+    	                <i class="glyphicon glyphicon-calendar"></i> {{ post.date_created.strftime('%d.%m.%Y, %H:%M:%S') }} &nbsp; <br />
+    	            </div>
+    	        </div>
+    	    </div>
+    	</div>
+	</div>
+	{% endfor %}
+{% endif %}
+
+{% if current_user.active %}
+<div class="row pad">
+    <div class="col-lg-12 pad">
+        <div class="panel panel-primary">
+            <div class="panel-body pad" id="_post">
+                    {%if current_user in users or current_user.id == group.admin_id %}
+                    	 <form method="POST" role="form" id="theForm">
+                    	 {{ form.csrf_token }}
+                    	 <div class="form-group"> {{ form.content(class="form-control", rows="5") }} </div>
+                    	 <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add your new post </button>
+                		 </form>
+                   	{% else %}
+            		<a href="{{ url_for('apply_for_group', group_id=group.id)}}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Apply for group</a>
+            		{% endif %}
+            </div>
+        </div>
+    </div>
+</div>   
+{% endif %}                   
+{% endblock %}
