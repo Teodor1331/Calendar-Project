@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %} {{event.name}} {% endblock %}
+
+{% block body %}
+
+	<div class="row pad">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <strong>Event:</strong> {{ event.name }}
+                    </div>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.active and user.id == event.user_id %}
+    <a href="{{ url_for('update_event', id=event.id) }}" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Update </a>
+    <a href="/delete_event/{{ event.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-remove"></i> Delete </a>
+{% endif %}
+
+	<h2>Event posts:</h2>
+	{% for post in linked_posts %}
+	<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
+    	<div class="panel-body">
+    	    <div class="row post">
+    	        <div class="col-lg-9">
+    	            <div class="post-content"> <a href="{{ url_for('post', post_id=post.id) }}" style="font-size: 18px" class="blue">{{ post.content }} </div>
+    	        </div>
+    	        
+    	        {% if user.active and user.id == post.user_id%}
+    	        <a href="{{url_for('update_post', post_id=post.id)}}" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Update</a>
+    	        <a href="/delete_post/{{ post.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+    	        {% endif %}
+    	        
+    	        <br/>
+    	        <br/>
+    	        <br/>
+    	        
+    	        <div class="col-lg-3">
+    	            <div class="post-details">
+    	                <i class="glyphicon glyphicon-calendar"></i> {{ post.date_created.strftime('%d.%m.%Y, %H:%M:%S') }} &nbsp; <br />
+    	            </div>
+    	        </div>
+    	    </div>
+    	</div>
+	</div>
+	{% endfor %}
+
+{% if current_user.active %}
+<div class="row pad">
+    <div class="col-lg-12 pad">
+        <div class="panel panel-primary">
+            <div class="panel-body pad" id="_post">
+                    <form method="POST" role="form" id="theForm">
+                    {{ form.csrf_token }}
+                    <div class="form-group"> {{ form.content(class="form-control", rows="5") }} </div>
+                    <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add your new post </button>
+                	</form>
+            </div>
+        </div>
+    </div>
+</div> 
+{% endif %} 
+
+{% if current_user.active %}
+<div class="row">
+    <div class="col-lg-3">
+        <a href=#newModal data-toggle="modal", class="btn btn-primary" title="Create Group">
+            <i class="glyphicon glyphicon-pushpin"></i> Link to post</a>
+    </div>
+</div>
+{% endif %}
+
+
+<div class="modal fade" id="newModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Link to post</h4>
+            </div>
+            <div class="modal-body">
+                <form method = "POST"  url = "event/{{event.id}}" enctype="multipart/form-data">
+                	{% for post in unlinked_posts %}
+                		<br><input type="radio" id="link" name="event" value="{{post.id}}">
+						<label for="link">{{post.content}}</label></br>
+                    {% endfor %}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
+	
+{% endblock %}

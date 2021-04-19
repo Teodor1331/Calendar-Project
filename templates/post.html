@@ -22,6 +22,21 @@
     </div>
 </div>
 
+{% if linked_to %}
+	<h2>Linked to:</h2>
+	{% for event in linked_to %}
+		<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
+    	<div class="panel-body">
+    	    <div class="row post">
+    	        <div class="col-lg-9">
+    	            <div class="post-content"> <a href="{{ url_for('event', id=event.id) }}" style="font-size: 18px" class="blue">{{ event.name }} </div>
+    	        </div>
+    	    </div>
+    	</div>
+	</div>
+	{% endfor %}
+{% endif %}
+
 <h2>All comments for this post:</h2>
 	{% for comment in comments %}
 	<div class="panel panel-primary post" id="r1" style="border-radius: 20px;">
@@ -50,13 +65,34 @@
     <div class="col-lg-12 pad">
         <div class="panel panel-primary">
             <div class="panel-body pad" id="_post">
-                     <form method="POST" url = "post/{{post.id}}" enctype="multipart/form-data">
-					 <textarea name="new_content" style="width:950px;height:150px;" placeholder = "Comment"></textarea></br>	
-                     <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add your new comment </button>
-                	 </form>
+            	<form method="POST" role="form" id="theForm">
+                    {{ form.csrf_token }}
+                    <div class="form-group"> {{ form.content(class="form-control", rows="5") }} </div>
+                    <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Add your new comment </button>
+                </form>
             </div>
         </div>
     </div>
 </div>   
+
+<div class="modal fade" id="newModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Link to event</h4>
+            </div>
+            <div class="modal-body">
+                <form method = "POST"  url = "post/{{post.id}}" enctype="multipart/form-data">
+                	{% for event in unlinked %}
+                		<br><input type="radio" id="link" name="event" value="{{event.id}}">
+						<label for="link">{{event.content}}</label></br>
+                    {% endfor %}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
 {% endif %}
 {% endblock %}

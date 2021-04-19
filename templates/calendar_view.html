@@ -1,19 +1,66 @@
 <!DOCTYPE html>
 <html lang="">
     <head>
+    	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-3.3.6/dist/css/bootstrap.min.css') }}"/>
+		<script src="{{ url_for('static', filename='bootstrap-3.3.6/js/tests/vendor/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap-3.3.6/dist/js/bootstrap.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/styles.css') }}"/>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE-edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> Calendar </title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.js"></script>
     </head>
-    <body>
+    <body>			
+    
+    	<div class="row">
+    		<div class="col-lg-3">
+        		<a href=#AddEvent data-toggle="modal", class="btn btn-primary" title="Create Group">
+            	<i class="glyphicon glyphicon-pushpin"></i> Add Event</a>
+    		</div>
+		</div>
+    
         <div id="calendar"></div>
         <script> 
             let calendarEl = document.getElementById('calendar');
-            let calendar = new FullCalendar.Calendar(calendarEl, {});
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+            	events:[
+            		{% for event in events %}
+            		{
+            			title: "{{event.name}}",
+            			date: "{{event.date_happening}}",
+            			url: "/events/{{event.id}}",
+            		},
+            		{% endfor %}
+            	]
+            });
             calendar.render();
         </script>
+    	
+    	<div class="modal fade" id="AddEvent">
+    		<div class="modal-dialog">
+        		<div class="modal-content">
+           			 <div class="modal-header">
+                		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                		<h4 class="modal-title">Create Event</h4>
+            		</div>
+           		<div class="modal-body">
+                	<form method="POST" role="form">
+                  	 	{{ form.csrf_token }}
+                    	<div class="form-group">
+							<label for="">Enter title</label>{{ form.name(class="form-group") }}
+						</div>
+					
+						<div class="form-group">
+							<label for="">Date</label>{{ form.date(class="form-group") }}				
+						</div>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save Changes</button>
+                	</form>
+            	</div>
+        	</div>
+    	</div>
+    
     </body>
 </html>
